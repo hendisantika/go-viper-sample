@@ -2,24 +2,31 @@ package main
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
+	"log"
 )
 
-//TIP To run your code, right-click the code and select <b>Run</b>. Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.
+func initializeViper() {
+	viper.SetConfigName("config") // name of config file (without extension)
+	viper.SetConfigType("json")   // REQUIRED if the config file does not have the extension
+	viper.AddConfigPath(".")      // path to look for the config file in
+	err := viper.ReadInConfig()   // Find and read the config file
 
-func main() {
-	//TIP Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined or highlighted text
-	// to see how GoLand suggests fixing it.
-	s := "gopher"
-	fmt.Println("Hello and welcome, %s!", s)
-
-	for i := 1; i <= 5; i++ {
-		//TIP You can try debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-		// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>. To start your debugging session,
-		// right-click your code in the editor and select the <b>Debug</b> option.
-		fmt.Println("i =", 100/i)
+	if err != nil { // Handle errors reading the config file
+		log.Fatalf("Error while reading config file %s", err)
 	}
 }
 
-//TIP See GoLand help at <a href="https://www.jetbrains.com/help/go/">jetbrains.com/help/go/</a>.
-// Also, you can try interactive lessons for GoLand by selecting 'Help | Learn IDE Features' from the main menu.
+func main() {
+	initializeViper()
+
+	hostname := viper.GetString("hostname")
+	port := viper.GetInt("port")
+	username := viper.GetString("credentials.username")
+	password := viper.GetString("credentials.password")
+
+	fmt.Printf("Hostname: %s\n", hostname)
+	fmt.Printf("Port: %d\n", port)
+	fmt.Printf("Username: %s\n", username)
+	fmt.Printf("Password: %s\n", password)
+}
