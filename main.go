@@ -7,10 +7,10 @@ import (
 )
 
 func initializeViper() {
-	viper.SetConfigName("config") // name of config file (without extension)
-	viper.SetConfigType("json")   // REQUIRED if the config file does not have the extension
-	viper.AddConfigPath(".")      // path to look for the config file in
-	err := viper.ReadInConfig()   // Find and read the config file
+	viper.SetConfigName("config")   // name of config file (without extension)
+	viper.SetConfigType("json")     // REQUIRED if the config file does not have the extension
+	viper.AddConfigPath("./config") // path to look for the config file in
+	err := viper.ReadInConfig()     // Find and read the config file
 
 	if err != nil { // Handle errors reading the config file
 		log.Fatalf("Error while reading config file %s", err)
